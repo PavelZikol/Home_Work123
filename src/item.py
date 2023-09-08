@@ -21,33 +21,6 @@ class Item:
         self.quantity = quantity
         # Item.all.append(self)
 
-    @classmethod
-    def instantiate_from_csv(cls, file):
-        """Class method creating for opening csv file and adding instances to new
-        empty all list"""
-        cls.all = []
-        with open(file) as f:
-            reader = csv.DictReader(f)
-            for row in reader:
-                cls.all.append(cls(row["name"], row["price"], row["quantity"]))
-
-    @staticmethod
-    def string_to_number(string_num):
-        """Static method creating for returning number from string"""
-        if string_num.isdigit():
-            return int(string_num)
-        return float(string_num) // 1
-
-    @property
-    def name(self):
-        """Class name getter"""
-        return self.__name
-
-    @name.setter
-    def name(self, new_name):
-        """Class name setter"""
-        self.__name = new_name[:10]
-
     def calculate_total_price(self) -> float:
         """
         Рассчитывает общую стоимость конкретного товара в магазине.
@@ -61,3 +34,29 @@ class Item:
         Применяет установленную скидку для конкретного товара.
         """
         self.price *= self.pay_rate
+
+    @property
+    def name(self):
+        """гетер"""
+        return self.__name
+
+    @name.setter
+    def name(self, new_name):
+        """поменять имя"""
+        self.__name = new_name[:10]
+
+    @classmethod
+    def instantiate_from_csv(cls, file):
+        """открытие csv и заполнение пусого списка"""
+        cls.all = []
+        with open(file) as f:
+            reader = csv.DictReader(f)
+            for i in reader:
+                cls.all.append(cls(i["name"], i["price"], i["quantity"]))
+
+    @staticmethod
+    def string_to_number(num):
+        """Возврат чисел из строки"""
+        if num.isdigit():
+            return int(num)
+        return float(num) // 1
