@@ -18,7 +18,7 @@ class Item:
         self.__name = name
         self.price = price
         self.quantity = quantity
-        # Item.all.append(self)
+        #Item.all.append(self)
 
     def calculate_total_price(self) -> float:
         """
@@ -46,7 +46,7 @@ class Item:
 
     @classmethod
     def instantiate_from_csv(cls, file):
-        """открытие csv и заполнение пусого списка"""
+        """открытие csv и заполнение пусого списка all"""
         cls.all = []
         with open(file) as f:
             reader = csv.DictReader(f)
@@ -59,3 +59,9 @@ class Item:
         if num.isdigit():
             return int(num)
         return float(num) // 1
+
+    def __repr__(self):
+        return f"Item({repr(self.__name)}, {repr(self.price)}, {repr(self.quantity)})"
+
+    def __str__(self):
+        return f"{self.__name}"
