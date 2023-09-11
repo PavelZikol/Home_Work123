@@ -1,5 +1,6 @@
 import csv
 
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -18,7 +19,7 @@ class Item:
         self.__name = name
         self.price = price
         self.quantity = quantity
-        #Item.all.append(self)
+        # Item.all.append(self)
 
     def calculate_total_price(self) -> float:
         """
@@ -42,7 +43,8 @@ class Item:
     @name.setter
     def name(self, new_name):
         """поменять имя"""
-        self.__name = new_name[:10]
+        if 0 < len(new_name) < 10:
+            self.__name = new_name[:10]
 
     @classmethod
     def instantiate_from_csv(cls, file):
@@ -56,12 +58,10 @@ class Item:
     @staticmethod
     def string_to_number(num):
         """Возврат чисел из строки"""
-        if num.isdigit():
-            return int(num)
-        return float(num) // 1
+        return int(float(num))
 
     def __repr__(self):
-        return f"Item({repr(self.__name)}, {repr(self.price)}, {repr(self.quantity)})"
+        return f"Item({repr(self.__name):str}, {repr(self.price):float}, {repr(self.quantity):int})"
 
     def __str__(self):
         return f"{self.__name}"
