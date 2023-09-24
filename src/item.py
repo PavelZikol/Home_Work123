@@ -16,7 +16,7 @@ class Item:
         :param price: Цена за единицу товара.
         :param quantity: Количество товара в магазине.
         """
-        self.__name = name
+        self.name = name
         self.price = price
         self.quantity = quantity
 
@@ -59,8 +59,20 @@ class Item:
         """Возврат чисел из строки"""
         return int(float(num))
 
+    def __add__(self, other):
+        if isinstance(other, Item):
+            return Item(self.quantity + other.quantity)
+
     def __repr__(self):
         return f"Item({repr(self.__name):str}, {repr(self.price):float}, {repr(self.quantity):int})"
 
     def __str__(self):
         return f"{self.__name}"
+
+    def __add__(self, other):
+        if issubclass(other.__class__, self.__class__):
+            total_sum = self.quantity + other.quantity
+            return total_sum
+        return f"Sorry, bro)"
+
+
