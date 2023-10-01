@@ -1,7 +1,6 @@
 """Здесь надо написать тесты с использованием pytest для модуля item."""
-
-from src.item import Item
-
+import pytest
+from src.item import Item, InstantiateCSVError
 
 def test_Item():
     """Тестирование полей класса Item"""
@@ -37,3 +36,13 @@ def test_repr():
     item = Item("Энергетик", 20, 50)
     assert repr(item) == "Item('Энергетик', 20, 50)"
     assert str(item) == 'Энергетик'
+def test_empty_csv():
+    """Тестирование пустого файла"""
+    with pytest.raises(FileNotFoundError):
+        Item.instantiate_from_csv("item.csv")
+
+
+def test_broken_csv():
+    """Тестирование поврежденного файла"""
+    with pytest.raises(InstantiateCSVError):
+        Item.instantiate_from_csv("../src/item.csv")
