@@ -1,6 +1,14 @@
 import csv
 
 
+class InstantiateCSVError(Exception):
+
+    def __init__(self, *args, **kwargs):
+        self.report = args[0] if args else "Файл item.csv поврежден"
+
+    def __str__(self):
+        return self.report
+
 class Item:
     """
     Класс для представления товара в магазине.
@@ -74,6 +82,22 @@ class Item:
         Применяет установленную скидку для конкретного товара.
         """
         self.price *= self.pay_rate
+
+
+    @classmethod
+    def instantiate_from_csv(cls, file_name):
+        cls.all = []
+        try:
+            with open(file_name) as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    cls.all.append(cls(row["name"], row["price"], row["quantity"]))
+
+        except FileNotFoundError:
+            raise FileNotFoundError("Отсутствует файл item.csv")
+
+        except KeyError:
+            raise InstantiateCSVError("Файл item.csv поврежден")
 
 
 
